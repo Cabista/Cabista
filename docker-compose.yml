@@ -1,0 +1,8 @@
+version: "3.7"
+services: 
+    vehicleservice:
+        build: ../VehicleService
+        ports: 
+            - 9000:8080
+    businessservice:
+        
