@@ -1,8 +1,83 @@
 version: "3.7"
-services: 
-    vehicleservice:
-        build: ../VehicleService
-        ports: 
-            - 9000:8080
-    businessservice:
-        
+services:
+#ui
+  userinterface:
+    build: ../UI
+    ports: 
+      - 3000:3000
+    networks:
+      - intranet
+#endui
+#services
+  vehicleservice:
+    build: ../VehicleService
+    ports:
+      - 8001:8080
+    networks:
+      - intranet
+#endservices
+
+  krakend:
+    image: devopsfaith/krakend
+    ports: 
+      - 8080:8080
+    volumes:
+      - ./configs/krakend:/etc/krakend
+    networks:
+      - intranet
+#data
+  postgresd:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - intranet
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8888:8080
+    networks:
+      - intranet
+
+  mailhog:
+    image: mailhog/mailhog
+    ports: 
+      - 25:25
+      - 8025:8025
+    environment: 
+      MAIL_DRIVER: smtp
+    networks:
+      - intranet
+#enddata
+#auth
+#keycloak
+  keycloak:
+    image: jboss/keycloak
+    depends_on: 
+      - postgresd
+    environment: 
+      KEYCLOAK_USER: johnfg10
+      KEYCLOAK_PASSWORD: Password1
+      DB_VENDOR: postgres
+      DB_ADDR: postgresd
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+    ports: 
+      - 8900:8080
+    networks:
+      - intranet
+#endkeycloak
+#endauth
+volumes:
+  db_data:
+  es_data:
+  fa_config:
+
+networks:
+  intranet:
