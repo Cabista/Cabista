@@ -40,23 +40,6 @@
   "roles": {
     "realm": [
       {
-        "id": "03a2a565-a90c-4b9e-84de-974631416bd8",
-        "name": "uma_authorization",
-        "description": "${role_uma_authorization}",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "Cabista",
-        "attributes": {}
-      },
-      {
-        "id": "75a0c5ae-893d-4a99-93e9-fd5e89de5de0",
-        "name": "business_vehicle_view",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "Cabista",
-        "attributes": {}
-      },
-      {
         "id": "e50edef0-a099-48d4-8808-9838d4e19ff7",
         "name": "business_vehicle_delete",
         "composite": false,
@@ -73,9 +56,66 @@
         "attributes": {}
       },
       {
+        "id": "4c5c5bd5-0e6e-4139-887b-41919eda664f",
+        "name": "business_booking_delete",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "5af955b0-c328-43b4-aa3b-d77a2bc92565",
+        "name": "business_vehicle_edit",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "02bb9831-bf81-478f-acd7-6c5f807e3499",
+        "name": "business_booking_new",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "03a2a565-a90c-4b9e-84de-974631416bd8",
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "3c60d43d-7437-407b-9144-ec46d46bed82",
+        "name": "business_booking_edit",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "75a0c5ae-893d-4a99-93e9-fd5e89de5de0",
+        "name": "business_vehicle_view",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
         "id": "f040afc9-7ba9-4410-aa8a-7449f7f2f14a",
         "name": "offline_access",
         "description": "${role_offline-access}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "4bec5935-033d-4277-8c4a-6f382a6237f5",
+        "name": "business_booking_view",
         "composite": false,
         "clientRole": false,
         "containerId": "Cabista",
@@ -87,14 +127,20 @@
         "composite": true,
         "composites": {
           "realm": [
-            "business_vehicletype_delete",
             "business_vehicle_edit",
-            "business_vehicle_view",
+            "business_vehicletype_delete",
             "business_vehicle_new",
+            "business_booking_new",
             "business_vehicletype_new",
+            "business_vehicle_delete",
+            "business_booking_view",
+            "business_vehicle_view",
+            "business_booking_delete",
+            "business_dispatcher",
+            "business_call_handler",
             "business_vehicletype_view",
-            "business_vehicletype_edit",
-            "business_vehicle_delete"
+            "business_booking_edit",
+            "business_vehicletype_edit"
           ]
         },
         "clientRole": false,
@@ -110,9 +156,38 @@
         "attributes": {}
       },
       {
+        "id": "1f9240cc-51f4-4c40-a3bd-51607a676d86",
+        "name": "business_dispatcher",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "business_call_handler"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
         "id": "3c1e6859-d2a3-4b17-8edc-e646c6149a1e",
         "name": "business_vehicletype_edit",
         "composite": false,
+        "clientRole": false,
+        "containerId": "Cabista",
+        "attributes": {}
+      },
+      {
+        "id": "4f97f9e9-7cd7-4489-bdb8-2bc06ab01019",
+        "name": "business_call_handler",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "business_booking_view",
+            "business_booking_new",
+            "business_booking_delete",
+            "business_booking_edit"
+          ]
+        },
         "clientRole": false,
         "containerId": "Cabista",
         "attributes": {}
@@ -128,14 +203,6 @@
       {
         "id": "d87ff30b-144d-4dc8-a46f-e3db105258e9",
         "name": "business_vehicletype_view",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "Cabista",
-        "attributes": {}
-      },
-      {
-        "id": "5af955b0-c328-43b4-aa3b-d77a2bc92565",
-        "name": "business_vehicle_edit",
         "composite": false,
         "clientRole": false,
         "containerId": "Cabista",

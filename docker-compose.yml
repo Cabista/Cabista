@@ -10,7 +10,13 @@ services:
 #endui
 #services
   vehicleservice:
-    build: ../VehicleService
+    image: cabista/vehicleservice
+    #build: ../VehicleService
+    environment: 
+      SRV_DBDIALECT: postgres
+      SRV_DBCONNECTION: host=postgresd port=5432 user=postgres dbname=VehicleService password=password sslmode=disable
+    depends_on: 
+      - postgresd
     ports:
       - 8001:8080
     networks:
@@ -57,12 +63,12 @@ services:
 #auth
 #keycloak
   keycloak:
-    image: jboss/keycloak
+    image: jboss/keycloak:9.0.0
     depends_on: 
       - postgresd
     environment: 
-      KEYCLOAK_USER: johnfg10
-      KEYCLOAK_PASSWORD: Password1
+     # KEYCLOAK_USER: johnfg10
+     # KEYCLOAK_PASSWORD: Password1
       DB_VENDOR: postgres
       DB_ADDR: postgresd
       DB_PORT: 5432

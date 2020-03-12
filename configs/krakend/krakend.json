@@ -1,26 +1,8 @@
 {
   "version": 2,
   "extra_config": {
-    "github_com/devopsfaith/krakend-oauth2-clientcredentials": {
-      "endpoint_params": {},
-      "client_id": "Cabista Frontend",
-      "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-      "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-      "scopes": "openid"
-    },
-    "github_com/devopsfaith/krakend-cors": {
-      "allow_origins": [
-        "*"
-      ],
-      "expose_headers": [
-        "Content-Length"
-      ],
-      "max_age": "12h",
-      "allow_methods": [
-        "GET",
-        "HEAD",
-        "POST"
-      ]
+    "github.com/devopsfaith/krakend/http": {
+      "return_error_details": "backend_alias"
     }
   },
   "timeout": "3000ms",
@@ -30,40 +12,34 @@
   "port": 8080,
   "endpoints": [
     {
-      "endpoint": "/api/v1/vehicle/{ID}",
-      "method": "GET",
+      "endpoint": "/api/v1/vehicle",
+      "method": "POST",
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
           "alg": "RS256",
           "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "issuer": "http://localhost:8900/auth/realms/Cabista",
           "cache": true,
           "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
           "roles": [
-            "business_vehicle_view"
-          ],
-          "audience": [],
-          "cookie_key": "",
-          "roles_key": "realm_access.roles"
+            "business_vehicletype_view"
+          ]
         }
       },
       "output_encoding": "json",
       "concurrent_calls": 1,
       "backend": [
         {
-          "url_pattern": "/api/v1/vehicle/{ID}",
+          "url_pattern": "/api/v1/vehicle/",
           "encoding": "json",
           "sd": "static",
           "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
             }
           },
-          "method": "GET",
+          "method": "POST",
           "host": [
             "http://vehicleservice:8080"
           ],
@@ -71,22 +47,22 @@
         }
       ],
       "headers_to_pass": [
-        "Authorisation",
-        "Content-Type"
+        "Authorization"
       ]
     },
     {
       "endpoint": "/api/v1/vehicle/{ID}",
-      "method": "DELETE",
+      "method": "GET",
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
           "alg": "RS256",
           "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
           "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
           "roles": [
-            "business_vehicletype_new"
+            "business_vehicletype_view"
           ]
         }
       },
@@ -98,12 +74,86 @@
           "encoding": "json",
           "sd": "static",
           "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
+            }
+          },
+          "method": "GET",
+          "host": [
+            "http://vehicleservice:8080"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ]
+    },
+    {
+      "endpoint": "/api/v1/vehicle/{ID}",
+      "method": "PUT",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "RS256",
+          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
+          "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
+          "roles": [
+            "business_vehicletype_view"
+          ]
+        }
+      },
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v1/vehicle/{ID}",
+          "encoding": "json",
+          "sd": "static",
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
+            }
+          },
+          "method": "PUT",
+          "host": [
+            "http://vehicleservice:8080"
+          ],
+          "disable_host_sanitize": false
+        }
+      ],
+      "headers_to_pass": [
+        "Authorization"
+      ]
+    },
+    {
+      "endpoint": "/api/v1/vehicle/{ID}",
+      "method": "DELETE",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "RS256",
+          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
+          "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
+          "roles": [
+            "business_vehicletype_view"
+          ]
+        }
+      },
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/v1/vehicle/{ID}",
+          "encoding": "json",
+          "sd": "static",
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
             }
           },
           "method": "DELETE",
@@ -119,96 +169,17 @@
     },
     {
       "endpoint": "/api/v1/vehicle",
-      "method": "POST",
-      "extra_config": {
-        "github.com/devopsfaith/krakend-jose/validator": {
-          "alg": "RS256",
-          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
-          "cache": true,
-          "roles": [
-            "business_vehicletype_new"
-          ]
-        }
-      },
-      "output_encoding": "json",
-      "concurrent_calls": 1,
-      "backend": [
-        {
-          "url_pattern": "/api/v1/vehicle",
-          "encoding": "json",
-          "sd": "static",
-          "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
-            }
-          },
-          "method": "POST"
-        }
-      ],
-      "headers_to_pass": [
-        "Authorization"
-      ]
-    },
-    {
-      "endpoint": "/api/v1/vehicle/{ID}",
-      "method": "PUT",
-      "extra_config": {
-        "github.com/devopsfaith/krakend-jose/validator": {
-          "alg": "RS256",
-          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
-          "cache": true,
-          "roles": [
-            "business_vehicletype_new"
-          ]
-        }
-      },
-      "output_encoding": "json",
-      "concurrent_calls": 1,
-      "backend": [
-        {
-          "url_pattern": "business_vehicle_edit",
-          "encoding": "json",
-          "sd": "static",
-          "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
-            }
-          },
-          "method": "PUT",
-          "host": [
-            "http://vehicleservice:8080"
-          ],
-          "disable_host_sanitize": false
-        }
-      ],
-      "headers_to_pass": [
-        "Authorization"
-      ]
-    },
-    {
-      "endpoint": "/api/v1/vehicletype/{ID}",
       "method": "GET",
       "extra_config": {
         "github.com/devopsfaith/krakend-jose/validator": {
           "alg": "RS256",
           "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
           "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
           "roles": [
-            "business_vehicletype_new"
+            "business_vehicletype_view"
           ]
         }
       },
@@ -216,16 +187,12 @@
       "concurrent_calls": 1,
       "backend": [
         {
-          "url_pattern": "/api/v1/vehicletype/{ID}",
+          "url_pattern": "/v1/vehicle",
           "encoding": "json",
           "sd": "static",
           "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
             }
           },
           "method": "GET",
@@ -234,96 +201,6 @@
           ],
           "disable_host_sanitize": false
         }
-      ],
-      "headers_to_pass": [
-        "Authorization"
-      ]
-    },
-    {
-      "endpoint": "/api/v1/vehicletype/{ID}",
-      "method": "DELETE",
-      "extra_config": {
-        "github.com/devopsfaith/krakend-jose/validator": {
-          "alg": "RS256",
-          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
-          "cache": true,
-          "roles": [
-            "business_vehicletype_new"
-          ]
-        }
-      },
-      "output_encoding": "json",
-      "concurrent_calls": 1,
-      "backend": [
-        {
-          "url_pattern": "/api/v1/vehicletype/{ID}",
-          "encoding": "json",
-          "sd": "static",
-          "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
-            }
-          },
-          "method": "DELETE",
-          "host": [
-            "http://vehicleservice:8080"
-          ],
-          "disable_host_sanitize": false
-        }
-      ],
-      "headers_to_pass": [
-        "Authorization"
-      ]
-    },
-    {
-      "endpoint": "/api/v1/vehicletype/{ID}",
-      "method": "PUT",
-      "extra_config": {
-        "github.com/devopsfaith/krakend-jose/validator": {
-          "alg": "RS256",
-          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
-          "cache": true,
-          "roles": [
-            "business_vehicletype_new"
-          ]
-        },
-        "github.com/devopsfaith/krakend/proxy": {
-          "sequential": false
-        }
-      },
-      "output_encoding": "json",
-      "concurrent_calls": 1,
-      "backend": [
-        {
-          "url_pattern": "/api/v1/vehicletype/{ID}",
-          "encoding": "json",
-          "sd": "static",
-          "extra_config": {
-            "github.com/devopsfaith/krakend-oauth2-clientcredentials": {
-              "endpoint_params": {},
-              "client_id": "Cabista Frontend",
-              "client_secret": "8c696349-0b81-49e4-80c4-66031b5f8a9e",
-              "token_url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/token",
-              "scopes": "openid"
-            }
-          },
-          "method": "PUT",
-          "host": [
-            "http://vehicleservice:8080"
-          ],
-          "disable_host_sanitize": false
-        }
-      ],
-      "headers_to_pass": [
-        "Authorization"
       ]
     },
     {
@@ -333,16 +210,70 @@
         "github.com/devopsfaith/krakend-jose/validator": {
           "alg": "RS256",
           "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
-          "roles_key": "realm_access.roles",
-          "disable_jwk_security": true,
           "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
           "roles": [
-            "business_vehicletype_new"
+            "business_vehicletype_view"
           ]
         }
       },
       "output_encoding": "json",
-      "concurrent_calls": 1
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/api/v1/vehicletype/",
+          "encoding": "json",
+          "sd": "static",
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
+            }
+          },
+          "method": "POST",
+          "host": [
+            "http://vehicleservice:8080"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
+    },
+    {
+      "endpoint": "/api/v1/vehicletype/{ID}",
+      "method": "GET",
+      "extra_config": {
+        "github.com/devopsfaith/krakend-jose/validator": {
+          "alg": "RS256",
+          "jwk-url": "http://keycloak:8080/auth/realms/Cabista/protocol/openid-connect/certs",
+          "cache": true,
+          "disable_jwk_security": true,
+          "issuer": "http://localhost:8900/auth/realms/Cabista",
+          "roles_key": "realm_access.roles",
+          "roles": [
+            "business_vehicletype_view"
+          ]
+        }
+      },
+      "output_encoding": "json",
+      "concurrent_calls": 1,
+      "backend": [
+        {
+          "url_pattern": "/api/v1/vehicletype/{ID}",
+          "encoding": "json",
+          "sd": "static",
+          "extra_config": {
+            "github.com/devopsfaith/krakend/http": {
+              "return_error_details": "backend_alias"
+            }
+          },
+          "method": "GET",
+          "host": [
+            "http://vehicleservice:8080"
+          ],
+          "disable_host_sanitize": false
+        }
+      ]
     }
   ]
 }
